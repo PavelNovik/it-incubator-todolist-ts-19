@@ -4,11 +4,15 @@ import { authAPI, LoginParamsType } from "features/auth/auth.api";
 import { clearTasksAndTodolists } from "common/actions";
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from "common/utils";
 import { thunkTryCatch } from "common/utils/thunk-try-catch";
+// import { AppRootStateType } from "app/store";
 
 const slice = createSlice({
   name: "auth",
   initialState: {
     isLoggedIn: false
+  },
+  selectors: {
+    selectIsLoggedIn : (sliceState) => sliceState.isLoggedIn
   },
   reducers: {
     // setIsLoggedIn: (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
@@ -117,3 +121,5 @@ const initializeApp = createAppAsyncThunk<{
 export const authReducer = slice.reducer;
 export const authActions = slice.actions;
 export const authThunks = { login, logout, initializeApp };
+
+export const {selectIsLoggedIn} = slice.selectors

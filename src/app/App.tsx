@@ -13,12 +13,11 @@ import {
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { Login } from "features/auth/Login";
-import { authThunks } from "features/auth/auth.reducer";
+import { authThunks, selectIsLoggedIn } from "features/auth/auth.reducer";
 import "./App.css";
 import { TodolistsList } from "features/TodolistsList/TodolistsList";
 import { ErrorSnackbar } from "common/components";
 import { useActions, useAppDispatch } from "common/hooks";
-import { selectIsLoggedIn } from "features/auth/auth.selectors";
 import { selectAppStatus, selectIsInitialized } from "app/app.selectors";
 
 function App() {
