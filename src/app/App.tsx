@@ -17,7 +17,7 @@ import { authThunks } from "features/auth/auth.reducer";
 import "./App.css";
 import { TodolistsList } from "features/TodolistsList/TodolistsList";
 import { ErrorSnackbar } from "common/components";
-import { useAppDispatch } from "common/hooks";
+import { useActions, useAppDispatch } from "common/hooks";
 import { selectIsLoggedIn } from "features/auth/auth.selectors";
 import { selectAppStatus, selectIsInitialized } from "app/app.selectors";
 
@@ -26,14 +26,18 @@ function App() {
   const isInitialized = useSelector(selectIsInitialized);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+
+  const {initializeApp, logout} = useActions(authThunks)
 
   useEffect(() => {
-    dispatch(authThunks.initializeApp());
+    // dispatch(authThunks.initializeApp());
+    initializeApp()
   }, []);
 
   const logoutHandler = useCallback(() => {
-    dispatch(authThunks.logout());
+    // dispatch(authThunks.logout());
+    logout()
   }, []);
 
   if (!isInitialized) {
