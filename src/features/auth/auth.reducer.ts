@@ -38,8 +38,15 @@ const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType>(
       if (res.data.resultCode === 0) {
         return { isLoggedIn: true };
       } else {
-        handleServerAppError(res.data, dispatch, false);
-        return rejectWithValue(res.data);
+        // handleServerAppError(res.data, dispatch, false);
+        // return rejectWithValue(res.data);
+
+        // ❗ Если у нас fieldsErrors есть значит мы будем отображать эти ошибки
+        // в конкретном поле в компоненте (пункт 7)
+        // ❗ Если у нас fieldsErrors нету значит отобразим ошибку глобально
+        const isShowAppError = !res.data.fieldsErrors.length
+        handleServerAppError(res.data, dispatch, isShowAppError);
+        return rejectWithValue(res.data)
       }
     } catch (e) {
       handleServerNetworkError(e, dispatch);
