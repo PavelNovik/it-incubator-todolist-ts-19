@@ -17,8 +17,8 @@ import { authThunks, selectIsLoggedIn } from "features/auth/auth.reducer";
 import "./App.css";
 import { TodolistsList } from "features/TodolistsList/TodolistsList";
 import { ErrorSnackbar } from "common/components";
-import { useActions, useAppDispatch } from "common/hooks";
-import { selectAppStatus, selectIsInitialized } from "app/app.selectors";
+import { useActions } from "common/hooks";
+import { selectAppStatus, selectIsInitialized } from "app/app.reducer";
 
 function App() {
   const status = useSelector(selectAppStatus);

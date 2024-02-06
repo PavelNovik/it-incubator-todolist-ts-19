@@ -9,7 +9,7 @@ import {
   UpdateTaskArgType,
   UpdateTaskModelType
 } from "features/TodolistsList/todolists.api";
-import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from "common/utils";
+import { createAppAsyncThunk, handleServerAppError } from "common/utils";
 import { ResultCode, TaskPriorities, TaskStatuses } from "common/enums";
 import { clearTasksAndTodolists } from "common/actions";
 import { thunkTryCatch } from "common/utils/thunk-try-catch";
@@ -39,24 +39,19 @@ const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>("tasks/a
     }
   });
 });
-const _addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>("tasks/addTask", async (arg, thunkAPI) => {
-  const { dispatch, rejectWithValue } = thunkAPI;
-  try {
-    dispatch(appActions.setAppStatus({ status: "loading" }));
-    const res = await todolistsApi.createTask(arg);
-    if (res.data.resultCode === ResultCode.Success) {
-      const task = res.data.data.item;
-      dispatch(appActions.setAppStatus({ status: "succeeded" }));
-      return { task };
-    } else {
-      handleServerAppError(res.data, dispatch);
-      return rejectWithValue(null);
-    }
-  } catch (e) {
-    handleServerNetworkError(e, dispatch);
-    return rejectWithValue(null);
-  }
-});
+// const _addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>("tasks/addTask", async (arg, thunkAPI) => {
+//   const { dispatch, rejectWithValue } = thunkAPI;
+//   return thunkTryCatch(thunkAPI, async ()=> {
+//     const res = await todolistsApi.createTask(arg);
+//     if (res.data.resultCode === ResultCode.Success) {
+//       const task = res.data.data.item;
+//       return { task };
+//     } else {
+//       handleServerAppError(res.data, dispatch);
+//       return rejectWithValue(null);
+//     }
+//   })
+// });
 
 const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>(
   "tasks/updateTask",
@@ -112,6 +107,9 @@ const initialState: TasksStateType = {};
 const slice = createSlice({
   name: "tasks",
   initialState,
+  selectors: {
+    selectTasks: (sliceState) => sliceState
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -154,6 +152,7 @@ const slice = createSlice({
 export const tasksReducer = slice.reducer;
 export const tasksActions = slice.actions;
 export const tasksThunks = { fetchTasks, addTask, updateTask, removeTask };
+export const { selectTasks } = slice.selectors;
 
 // types
 export type UpdateDomainTaskModelType = {

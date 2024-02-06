@@ -7,10 +7,10 @@ import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
   reducer: {
-    tasks: tasksReducer,
-    todolists: todolistsReducer,
+    auth: authReducer,
     app: appReducer,
-    auth: authReducer
+    todolists: todolistsReducer,
+    tasks: tasksReducer,
   }
 });
 

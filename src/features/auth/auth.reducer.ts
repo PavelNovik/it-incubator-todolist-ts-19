@@ -12,7 +12,7 @@ const slice = createSlice({
     isLoggedIn: false
   },
   selectors: {
-    selectIsLoggedIn : (sliceState) => sliceState.isLoggedIn
+    selectIsLoggedIn: (sliceState) => sliceState.isLoggedIn
   },
   reducers: {
     // setIsLoggedIn: (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
@@ -64,21 +64,17 @@ const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType>(
 
 const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>(`${slice.name}/logout`, async (_, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
-  try {
-    dispatch(appActions.setAppStatus({ status: "loading" }));
+  return thunkTryCatch(thunkAPI, async () => {
     const res = await authAPI.logout();
     if (res.data.resultCode === 0) {
       dispatch(clearTasksAndTodolists());
-      dispatch(appActions.setAppStatus({ status: "succeeded" }));
+
       return { isLoggedIn: false };
     } else {
       handleServerAppError(res.data, dispatch);
       return rejectWithValue(null);
     }
-  } catch (e) {
-    handleServerNetworkError(e, dispatch);
-    return rejectWithValue(null);
-  }
+  });
 });
 
 const initializeApp = createAppAsyncThunk<{
@@ -122,4 +118,4 @@ export const authReducer = slice.reducer;
 export const authActions = slice.actions;
 export const authThunks = { login, logout, initializeApp };
 
-export const {selectIsLoggedIn} = slice.selectors
+export const { selectIsLoggedIn } = slice.selectors;
