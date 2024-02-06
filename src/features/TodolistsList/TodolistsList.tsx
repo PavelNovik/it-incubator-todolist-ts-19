@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   FilterValuesType,
-  // selectTodolists,
+  selectTodolists,
   todolistsActions,
   todolistsThunks
 } from "features/TodolistsList/todolists.reducer";
@@ -12,7 +12,7 @@ import { AddItemForm } from "common/components";
 import { Todolist } from "./Todolist/Todolist";
 import { Navigate } from "react-router-dom";
 import { useActions } from "common/hooks";
-import { selectTodolists } from "features/TodolistsList/todolists.selectors";
+// import { selectTodolists } from "features/TodolistsList/todolists.selectors";
 import { TaskStatuses } from "common/enums";
 import { selectIsLoggedIn } from "features/auth/auth.reducer";
 
